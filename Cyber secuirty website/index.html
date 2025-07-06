@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SecureVerse - Cybersecurity Web Application Demo</title>
+<!-- Google Fonts and Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<!-- Bootstrap 5 CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="app">
+
+  <nav class="sidebar" aria-label="Main navigation">
+    <h2>SecureVerse</h2>
+    <div id="nav-links">
+      <div class="nav-link active" data-section="dashboard" tabindex="0" role="button" aria-current="page">
+        <span class="material-icons" aria-hidden="true">dashboard</span> Dashboard
+      </div>
+      <div class="nav-link" data-section="phishing" tabindex="0" role="button">
+        <span class="material-icons" aria-hidden="true">link</span> Phishing Detection
+      </div>
+      <div class="nav-link" data-section="vulnerability" tabindex="0" role="button">
+        <span class="material-icons" aria-hidden="true">security</span> Code Vulnerability
+      </div>
+      <div class="nav-link" data-section="password" tabindex="0" role="button">
+        <span class="material-icons" aria-hidden="true">vpn_key</span> Password Strength
+      </div>
+      <div class="nav-link" data-section="news" tabindex="0" role="button">
+        <span class="material-icons" aria-hidden="true">article</span> Cybersecurity News
+      </div>
+      <div class="nav-link" id="logout-button" tabindex="0" role="button">
+        <span class="material-icons" aria-hidden="true">logout</span> Logout
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content" role="main" tabindex="-1">
+    <header class="topbar">
+      <button aria-label="Toggle navigation sidebar" class="btn-toggle-sidebar" id="toggle-sidebar" aria-expanded="false" aria-controls="nav-links">
+        <span class="material-icons">menu</span>
+      </button>
+      <h1 id="welcome-message">Welcome to SecureVerse</h1>
+    </header>
+
+    <!-- Sections -->
+
+    <!-- Login / Register View -->
+    <section id="auth-section" style="display:none;">
+      <div id="auth-container">
+        <form id="login-form" aria-label="Login form" tabindex="0" style="min-width: 320px;">
+          <h2>Login</h2>
+          <div id="login-error" class="error-msg" role="alert" aria-live="assertive"></div>
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" autocomplete="username" required placeholder="you@example.com" />
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" autocomplete="current-password" required placeholder="Password" />
+          <button type="submit">Login</button>
+          <p style="margin-top: 0.5rem; font-size: 0.9rem;">Don't have an account? <a href="#" id="show-register">Register</a></p>
+        </form>
+
+        <form id="register-form" aria-label="Register form" tabindex="0" style="min-width: 320px; display:none;">
+          <h2>Register</h2>
+          <div id="register-error" class="error-msg" role="alert" aria-live="assertive"></div>
+          <div id="register-success" class="success-msg" role="alert" aria-live="polite"></div>
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" autocomplete="email" required placeholder="you@example.com" />
+          <label for="register-password">Password</label>
+          <input type="password" id="register-password" autocomplete="new-password" required placeholder="Password" />
+          <button type="submit">Register</button>
+          <p style="margin-top: 0.5rem; font-size: 0.9rem;">Already have an account? <a href="#" id="show-login">Login</a></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section id="dashboard-section" style="display:none;">
+      <div class="cards-row" aria-label="Stats cards">
+        <div class="card" role="region" aria-labelledby="stat-users-title">
+          <h3 id="stat-users-title">Active Users</h3>
+          <p style="font-size: 2rem; font-weight: 700;">0</p>
+        </div>
+        <div class="card" role="region" aria-labelledby="stat-detections-title">
+          <h3 id="stat-detections-title">Phishing Detections</h3>
+          <p style="font-size: 2rem; font-weight: 700;">0</p>
+        </div>
+        <div class="card" role="region" aria-labelledby="stat-scans-title">
+          <h3 id="stat-scans-title">Code Scans</h3>
+          <p style="font-size: 2rem; font-weight: 700;">0</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phishing Detection -->
+    <section id="phishing-section" style="display:none;">
+      <h2 class="section-title">Phishing Website Detection</h2>
+      <form id="phishing-form" aria-label="Phishing URL detection form">
+        <label for="url-input">Enter URL to check:</label>
+        <input type="url" id="url-input" required placeholder="https://example.com" aria-describedby="urlHelp" />
+        <div id="urlHelp" class="form-text mb-3">Enter the full URL to check if it's safe or phishing.</div>
+        <button type="submit">Check URL</button>
+      </form>
+      <div id="phishing-result" style="margin-top: 1rem; font-weight: 700;"></div>
+    </section>
+
+    <!-- Code Vulnerability Detector -->
+    <section id="vulnerability-section" style="display:none;">
+      <h2 class="section-title">Code Vulnerability Detector</h2>
+      <p>Paste your code snippet below to check for common vulnerabilities like SQL Injection, XSS, and hardcoded credentials.</p>
+      <textarea id="code-input" rows="8" aria-label="Code input area" placeholder="Paste your code here..."></textarea>
+      <button id="check-vulnerabilities-btn" style="margin-top: 1rem;">Check Vulnerabilities</button>
+      <div id="vulnerabilities-result" style="margin-top:1rem;"></div>
+    </section>
+
+    <!-- Password Strength Checker -->
+    <section id="password-section" style="display:none;">
+      <h2 class="section-title">Password Strength Checker</h2>
+      <label for="password-input">Enter Password:</label>
+      <input type="password" id="password-input" aria-describedby="passwordHelp" />
+      <div id="passwordHelp" class="form-text mb-2">Check password strength in real-time.</div>
+      <div class="strength-meter" aria-hidden="true">
+        <div class="strength-meter-fill" id="strength-meter-fill"></div>
+      </div>
+      <ul class="checklist" id="password-checklist" aria-live="polite" aria-atomic="true" role="list">
+        <li id="length-check"><span class="material-icons">close</span> Minimum 8 characters</li>
+        <li id="uppercase-check"><span class="material-icons">close</span> At least one uppercase letter</li>
+        <li id="lowercase-check"><span class="material-icons">close</span> At least one lowercase letter</li>
+        <li id="number-check"><span class="material-icons">close</span> At least one number</li>
+        <li id="symbol-check"><span class="material-icons">close</span> At least one special symbol (!@#$%^&*)</li>
+      </ul>
+    </section>
+
+    <!-- Cybersecurity News Section -->
+    <section id="news-section" style="display:none;">
+      <h2 class="section-title">Cybersecurity News</h2>
+      <button id="admin-toggle-btn" aria-pressed="false" aria-label="Toggle Admin Mode" style="margin-bottom: 1rem;">
+        Enter Admin Mode
+      </button>
+      <div id="add-news-form-container" style="display:none; margin-bottom: 1rem;">
+        <form id="add-news-form" aria-label="Add news form">
+          <label for="news-title">Title</label>
+          <input type="text" id="news-title" required placeholder="Enter news title" />
+          <label for="news-description">Description</label>
+          <textarea id="news-description" rows="3" required placeholder="Enter news description"></textarea>
+          <label for="news-date">Date</label>
+          <input type="date" id="news-date" required />
+          <button type="submit" style="margin-top: 0.5rem;">Add News</button>
+        </form>
+      </div>
+      <div class="news-container" id="news-container" aria-live="polite" aria-atomic="true"></div>
+    </section>
+
+  </main>
+</div>
+ <script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
